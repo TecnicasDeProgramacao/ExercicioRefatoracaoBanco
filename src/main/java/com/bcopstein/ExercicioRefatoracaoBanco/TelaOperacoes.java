@@ -109,7 +109,9 @@ public class TelaOperacoes {
         	  if (valor < 0.0) {
         		  throw new NumberFormatException("Valor invalido");
         	  }
+        	  //String statusAnt = conta.getStrStatus();
         	  conta.deposito(valor);
+        	  cat.setText("Categoria: " + conta.getStrStatus());
         	  GregorianCalendar date = new GregorianCalendar();
         	  Operacao op = new Operacao(
         			  date.get(GregorianCalendar.DAY_OF_MONTH),
@@ -125,6 +127,7 @@ public class TelaOperacoes {
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
+        	  
         	}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
@@ -142,6 +145,7 @@ public class TelaOperacoes {
           		  throw new NumberFormatException("Saldo insuficiente");
           	  }
           	  conta.retirada(valor);
+          	  cat.setText("Categoria: " + conta.getStrStatus());
         	  GregorianCalendar date = new GregorianCalendar();
         	  Operacao op = new Operacao(
         			  date.get(GregorianCalendar.DAY_OF_MONTH),

@@ -41,148 +41,169 @@ public class TelaOperacoes {
 	}
 
 	public Scene getTelaOperacoes() {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
 
-        String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
-        Text scenetitle = new Text(dadosCorr);
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
-        
-        String categoria = "Categoria: "+conta.getStrStatus();
-        String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
-        
-        Label cat = new Label(categoria);
-        grid.add(cat, 0, 1);
+		String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
+		Text scenetitle = new Text(dadosCorr);
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		grid.add(scenetitle, 0, 0, 2, 1);
 
-        Label lim = new Label(limRetDiaria);
-        grid.add(lim, 0, 2);
-        
-        Label tit = new Label("Ultimos movimentos");
-        grid.add(tit,0,3);
+		String categoria = "Categoria: "+conta.getStrStatus();
+		String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
 
-        // Seleciona apenas o extrato da conta atual
-        operacoesConta = 
-        		FXCollections.observableArrayList(
-        				operacoes
-        				.stream()
-        				.filter(op -> op.getNumeroConta() == this.conta.getNumero())
-        				.collect(Collectors.toList())
-        				);
-        
-        ListView<Operacao> extrato = new ListView<>(operacoesConta);
-        extrato.setPrefHeight(140);
-        grid.add(extrato, 0, 4);
+		Label cat = new Label(categoria);
+		grid.add(cat, 0, 1);
 
-        tfSaldo = new TextField();
-        tfSaldo.setDisable(true);
-        tfSaldo.setText(""+conta.getSaldo());
-        HBox valSaldo = new HBox(20);        
-        valSaldo.setAlignment(Pos.BOTTOM_LEFT);
-        valSaldo.getChildren().add(new Label("Saldo"));
-        valSaldo.getChildren().add(tfSaldo);
-        grid.add(valSaldo, 0, 5);        
+		Label lim = new Label(limRetDiaria);
+		grid.add(lim, 0, 2);
 
-        tfValorOperacao = new TextField();
-        HBox valOper = new HBox(30);        
-        valOper.setAlignment(Pos.BOTTOM_CENTER);
-        valOper.getChildren().add(new Label("Valor operacao"));
-        valOper.getChildren().add(tfValorOperacao);
-        grid.add(valOper, 1, 1);        
+		Label tit = new Label("Ultimos movimentos");
+		grid.add(tit,0,3);
 
-        Button btnCredito = new Button("Credito");
-        Button btnDebito = new Button("Debito");
-        Button btnVoltar = new Button("Voltar");
-        HBox hbBtn = new HBox(20);
-        hbBtn.setAlignment(Pos.TOP_CENTER);
-        hbBtn.getChildren().add(btnCredito);
-        hbBtn.getChildren().add(btnDebito);
-        hbBtn.getChildren().add(btnVoltar);
-        grid.add(hbBtn, 1, 2);
-        
-        btnCredito.setOnAction(e->{
-        	try {
-        	  double valor = Integer.parseInt(tfValorOperacao.getText());
-        	  if (valor < 0.0) {
-        		  throw new NumberFormatException("Valor invalido");
-        	  }
-        	  //String statusAnt = conta.getStrStatus();
-        	  conta.deposito(valor);
-        	  cat.setText("Categoria: " + conta.getStrStatus());
-        	 
-        	  GregorianCalendar date = new GregorianCalendar();
-        	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
-        			  conta.getNumero(),
-        			  conta.getStatus(),
-        			  valor,
-        			  0);
-              operacoes.add(op);        	  
-        	  tfSaldo.setText(""+conta.getSaldo());
-        	  operacoesConta.add(op);
-        	  
-        	}catch(NumberFormatException ex) {
+		// Seleciona apenas o extrato da conta atual
+		operacoesConta = 
+				FXCollections.observableArrayList(
+						operacoes
+						.stream()
+						.filter(op -> op.getNumeroConta() == this.conta.getNumero())
+						.collect(Collectors.toList())
+						);
+
+		ListView<Operacao> extrato = new ListView<>(operacoesConta);
+		extrato.setPrefHeight(140);
+		grid.add(extrato, 0, 4);
+
+		tfSaldo = new TextField();
+		tfSaldo.setDisable(true);
+		tfSaldo.setText(""+conta.getSaldo());
+		HBox valSaldo = new HBox(20);        
+		valSaldo.setAlignment(Pos.BOTTOM_LEFT);
+		valSaldo.getChildren().add(new Label("Saldo"));
+		valSaldo.getChildren().add(tfSaldo);
+		grid.add(valSaldo, 0, 5);        
+
+		tfValorOperacao = new TextField();
+		HBox valOper = new HBox(30);        
+		valOper.setAlignment(Pos.BOTTOM_CENTER);
+		valOper.getChildren().add(new Label("Valor operacao"));
+		valOper.getChildren().add(tfValorOperacao);
+		grid.add(valOper, 1, 1);        
+
+		Button btnCredito = new Button("Credito");
+		Button btnDebito = new Button("Debito");
+		Button btnVoltar = new Button("Voltar");
+		HBox hbBtn = new HBox(20);
+		hbBtn.setAlignment(Pos.TOP_CENTER);
+		hbBtn.getChildren().add(btnCredito);
+		hbBtn.getChildren().add(btnDebito);
+		hbBtn.getChildren().add(btnVoltar);
+		grid.add(hbBtn, 1, 2);
+
+		btnCredito.setOnAction(e->{
+			try {
+				double valor = Integer.parseInt(tfValorOperacao.getText());
+				if (valor < 0.0) {
+					throw new NumberFormatException("Valor invalido");
+				}
+				//String statusAnt = conta.getStrStatus();
+				conta.deposito(valor);
+				cat.setText("Categoria: " + conta.getStrStatus());
+
+				GregorianCalendar date = new GregorianCalendar();
+				Operacao op = new Operacao(
+						date.get(GregorianCalendar.DAY_OF_MONTH),
+						date.get(GregorianCalendar.MONTH+1),
+						date.get(GregorianCalendar.YEAR),
+						date.get(GregorianCalendar.HOUR),
+						date.get(GregorianCalendar.MINUTE),
+						date.get(GregorianCalendar.SECOND),
+						conta.getNumero(),
+						conta.getStatus(),
+						valor,
+						0);
+				operacoes.add(op);        	  
+				tfSaldo.setText(""+conta.getSaldo());
+				operacoesConta.add(op);
+
+			}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
 				alert.setHeaderText(null);
 				alert.setContentText("Valor inválido para operacao de crédito!!");
 
 				alert.showAndWait();
-        	}        	
-        });
-        
-        btnDebito.setOnAction(e->{
-        	try {
-          	  double valor = Integer.parseInt(tfValorOperacao.getText());
-          	  if (valor < 0.0 || valor > conta.getSaldo()) {
-          		  throw new NumberFormatException("Saldo insuficiente");
-          	  }
-          	  int totalDoDia = 0;
-          	  totalDoDia += valor;
-          	  
-          	  conta.retirada(valor);
-          	  cat.setText("Categoria: " + conta.getStrStatus());
-        	  GregorianCalendar date = new GregorianCalendar();
-        	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
-        			  conta.getNumero(),
-        			  conta.getStatus(),
-        			  valor,
-        			  1);
-        	  // Esta adicionando em duas listas (resolver na camada de negocio)
-              operacoes.add(op);        	  
-        	  tfSaldo.setText(""+conta.getSaldo());
-        	  operacoesConta.add(op);
-          	  tfSaldo.setText(""+conta.getSaldo());
-          	}catch(NumberFormatException ex) {
-  				Alert alert = new Alert(AlertType.WARNING);
-  				alert.setTitle("Valor inválido !!");
-  				alert.setHeaderText(null);
-  				alert.setContentText("Valor inválido para operacao de débito!");
+			}        	
+		});
 
-  				alert.showAndWait();
-          	}        	
-        });
+		btnDebito.setOnAction(e->{
+			try {
+				double valor = Integer.parseInt(tfValorOperacao.getText());
+				if (valor < 0.0 || valor > conta.getSaldo()) {
+					throw new NumberFormatException("Saldo insuficiente");
+				}
+				int totalDoDia = 0;
+				GregorianCalendar date = new GregorianCalendar();
+				totalDoDia += valor;
 
-        btnVoltar.setOnAction(e->{
-        	mainStage.setScene(cenaEntrada);
-        });
-		
-        cenaOperacoes = new Scene(grid);
-        return cenaOperacoes;
+				for(Operacao o : operacoes) 
+				{
+					if(o.getNumeroConta() == conta.getNumero() && o.getDia() == GregorianCalendar.DAY_OF_MONTH
+							&& o.getMes() == GregorianCalendar.MONTH+1 && o.getAno() == GregorianCalendar.YEAR && 
+							o.getTipoOperacao() == 1) 
+					{
+						totalDoDia += o.getValorOperacao();
+					}
+				}          	            	  
+
+				if(totalDoDia > conta.getLimRetiradaDiaria()) 
+				{
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Valor inválido !!");
+					alert.setHeaderText(null);
+					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");
+
+				}
+				else {
+					conta.retirada(valor);
+					cat.setText("Categoria: " + conta.getStrStatus());
+
+					Operacao op = new Operacao(
+							date.get(GregorianCalendar.DAY_OF_MONTH),
+							date.get(GregorianCalendar.MONTH+1),
+							date.get(GregorianCalendar.YEAR),
+							date.get(GregorianCalendar.HOUR),
+							date.get(GregorianCalendar.MINUTE),
+							date.get(GregorianCalendar.SECOND),
+							conta.getNumero(),
+							conta.getStatus(),
+							valor,
+							1);
+					// Esta adicionando em duas listas (resolver na camada de negocio)
+					operacoes.add(op);        	  
+					tfSaldo.setText(""+conta.getSaldo());
+					operacoesConta.add(op);
+					tfSaldo.setText(""+conta.getSaldo());
+				}
+			}catch(NumberFormatException ex) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Valor inválido !!");
+				alert.setHeaderText(null);
+				alert.setContentText("Valor inválido para operacao de débito!");
+
+				alert.showAndWait();
+			}        	
+		});
+
+		btnVoltar.setOnAction(e->{
+			mainStage.setScene(cenaEntrada);
+		});
+
+		cenaOperacoes = new Scene(grid);
+		return cenaOperacoes;
 	}
 
 }

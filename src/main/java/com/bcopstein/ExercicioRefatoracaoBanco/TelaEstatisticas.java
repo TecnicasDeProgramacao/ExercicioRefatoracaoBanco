@@ -24,8 +24,23 @@ import javafx.stage.Stage;
 
 public class TelaEstatisticas 
 {
-	public TelaEstatisticas() 
+	private Stage mainStage; 
+	private Scene cenaEntrada;
+	private Scene cenaOperacoes;
+	private List<Operacao> operacoes;
+	private ObservableList<Operacao> operacoesConta;
+	private Conta conta;
+	
+	public TelaEstatisticas(Stage mainStage, Scene telaOperacoes, Conta conta, List<Operacao> operacoes) 
 	{
-		
+		this.mainStage = mainStage;
+		this.cenaOperacoes = telaOperacoes;
+		this.conta = conta;
+		this.operacoes = operacoes;
+	}
+	
+	public Scene getTelaEstatisticas()
+	{
+		return null;
 	}
 }

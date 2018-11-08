@@ -96,11 +96,13 @@ public class TelaOperacoes {
 		Button btnCredito = new Button("Credito");
 		Button btnDebito = new Button("Debito");
 		Button btnVoltar = new Button("Voltar");
+		Button btnEst = new Button("Estatísticas");
 		HBox hbBtn = new HBox(20);
 		hbBtn.setAlignment(Pos.TOP_CENTER);
 		hbBtn.getChildren().add(btnCredito);
 		hbBtn.getChildren().add(btnDebito);
 		hbBtn.getChildren().add(btnVoltar);
+		hbBtn.getChildren().add(btnEst);
 		grid.add(hbBtn, 1, 2);
 
 		btnCredito.setOnAction(e->{
@@ -116,7 +118,7 @@ public class TelaOperacoes {
 				GregorianCalendar date = new GregorianCalendar();
 				Operacao op = new Operacao(
 						date.get(GregorianCalendar.DAY_OF_MONTH),
-						date.get(GregorianCalendar.MONTH+1),
+						date.get(GregorianCalendar.MONTH)+1,
 						date.get(GregorianCalendar.YEAR),
 						date.get(GregorianCalendar.HOUR),
 						date.get(GregorianCalendar.MINUTE),
@@ -152,7 +154,7 @@ public class TelaOperacoes {
 				for(Operacao o : operacoes) 
 				{
 					if(o.getNumeroConta() == conta.getNumero() && o.getDia() == GregorianCalendar.DAY_OF_MONTH
-							&& o.getMes() == GregorianCalendar.MONTH+1 && o.getAno() == GregorianCalendar.YEAR && 
+							&& o.getMes() == (GregorianCalendar.MONTH)+1 && o.getAno() == GregorianCalendar.YEAR && 
 							o.getTipoOperacao() == 1) 
 					{
 						totalDoDia += o.getValorOperacao();
@@ -173,7 +175,7 @@ public class TelaOperacoes {
 
 					Operacao op = new Operacao(
 							date.get(GregorianCalendar.DAY_OF_MONTH),
-							date.get(GregorianCalendar.MONTH+1),
+							date.get(GregorianCalendar.MONTH)+1,
 							date.get(GregorianCalendar.YEAR),
 							date.get(GregorianCalendar.HOUR),
 							date.get(GregorianCalendar.MINUTE),
@@ -196,6 +198,13 @@ public class TelaOperacoes {
 
 				alert.showAndWait();
 			}        	
+		});
+		
+		btnEst.setOnAction(e -> 
+		{
+			TelaEstatisticas test = new TelaEstatisticas(this.mainStage, this.cenaOperacoes,conta,operacoes);
+			Scene scene = test.getTelaEstatisticas();
+			mainStage.setScene(scene);
 		});
 
 		btnVoltar.setOnAction(e->{

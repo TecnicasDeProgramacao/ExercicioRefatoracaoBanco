@@ -41,6 +41,38 @@ public class TelaEstatisticas
 	
 	public Scene getTelaEstatisticas()
 	{
-		return null;
+		GridPane grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(25, 25, 25, 25));
+		Scene cenaEstatisticas = new Scene(grid);
+		
+		String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
+		Text scenetitle = new Text(dadosCorr);
+		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+		grid.add(scenetitle, 0, 0, 2, 1);
+		
+		double saldoDia = 0;
+		double saldoMes = 0;
+		GregorianCalendar date = new GregorianCalendar();
+		for(Operacao o: this.operacoes)
+		{
+			if(o.getNumeroConta() == this.conta.getNumero() && o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR))
+			{
+				
+			}
+		}
+		
+		String categoria = "Categoria: "+conta.getStrStatus();
+		String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
+
+		Label cat = new Label(categoria);
+		grid.add(cat, 0, 1);
+
+		Label lim = new Label(limRetDiaria);
+		grid.add(lim, 0, 2);
+		
+		return cenaEstatisticas;
 	}
 }

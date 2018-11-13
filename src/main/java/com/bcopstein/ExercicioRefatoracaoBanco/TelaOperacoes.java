@@ -152,17 +152,16 @@ public class TelaOperacoes {
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle("Valor inválido !!");
 					alert.setHeaderText(null);
-					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");
-					
-					throw new NumberFormatException("Saldo insuficiente");
+					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");					
+					alert.showAndWait();
+					return;
 				}
 				int totalDoDia = 0;
 				GregorianCalendar date = new GregorianCalendar();
-				totalDoDia += valor;
+				totalDoDia += valor; 
 
 				for(Operacao o : operacoes) 
-				{
-					System.out.println(o);
+				{					
 					if(o.getNumeroConta() == conta.getNumero() && o.getDia() == date.get(GregorianCalendar.DAY_OF_MONTH)
 							&& o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR) && 
 							o.getTipoOperacao() == 1) 
@@ -177,9 +176,9 @@ public class TelaOperacoes {
 					alert.setTitle("Valor inválido !!");
 					alert.setHeaderText(null);
 					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");
-					throw new NumberFormatException("Saldo insuficiente");
-
-
+					
+					alert.showAndWait();
+					return;
 				}
 				else {
 					conta.retirada(valor);

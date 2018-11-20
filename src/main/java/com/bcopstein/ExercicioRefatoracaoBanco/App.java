@@ -29,7 +29,7 @@ public class App extends Application {
 	
     @Override
     public void start(Stage primaryStage) {
-    	persistencia = new Persistencia();
+    	persistencia = Persistencia.getIntance();
         contas = persistencia.loadContas();    	
     	operacoes = persistencia.loadOperacoes();
     	

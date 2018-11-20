@@ -13,11 +13,27 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Persistencia {
+public class Persistencia 
+{
+	private static Persistencia instance = null;
     private final String NomeBDContas = "BDContasBNG.txt";
     private final String NomeBDOperacoes = "BDOperBNG.txt";
     
-    public Map<Integer,Conta> loadContas(){
+    private Persistencia()
+    {
+    }
+    
+    public static Persistencia getIntance()
+    {
+    	if(instance == null)
+    	{
+    		instance = new Persistencia();
+    	}
+    	return instance;
+    }
+    
+    public Map<Integer,Conta> loadContas()
+    {
     	Map<Integer,Conta> contas = new HashMap<>();
     	
         String currDir = Paths.get("").toAbsolutePath().toString();
@@ -45,7 +61,8 @@ public class Persistencia {
         return contas;
     }
 
-    public void saveContas(Collection<Conta> contas) {
+    public void saveContas(Collection<Conta> contas) 
+    {
         Path path1 = Paths.get(NomeBDContas); 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
@@ -61,7 +78,8 @@ public class Persistencia {
         } 
     }
 
-    public void saveOperacoes(Collection<Operacao> operacoes) {
+    public void saveOperacoes(Collection<Operacao> operacoes) 
+    {
         Path path1 = Paths.get(NomeBDOperacoes); 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
@@ -80,21 +98,24 @@ public class Persistencia {
         } 
     }
     
-    public List<Operacao> loadOperacoes(){
+    public List<Operacao> loadOperacoes()
+    {
         List<Operacao> operacoes = new LinkedList<Operacao>();
         
     	String currDir = Paths.get("").toAbsolutePath().toString();
         String nameComplete = currDir+"\\"+NomeBDOperacoes;
         System.out.println(nameComplete);
         Path path2 = Paths.get(nameComplete); 
-        try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.defaultCharset()))){ 
+        try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.defaultCharset())))
+        { 
            sc.useDelimiter("[;\n]"); // separadores: ; e nova linha 
            int dia,mes,ano;
            int hora,minuto,segundo;
            int numero,status,tipo;
            double valor;
        
-           while (sc.hasNext()){ 
+           while (sc.hasNext())
+           { 
                dia = Integer.parseInt(sc.next()); 
                mes = Integer.parseInt(sc.next()); 
                ano = Integer.parseInt(sc.next()); 
@@ -114,7 +135,9 @@ public class Persistencia {
                
                operacoes.add(op);
            }
-        }catch (IOException x){ 
+        }
+        catch (IOException x)
+        { 
             System.err.format("Erro de E/S: %s%n", x);
             return null;
         } 

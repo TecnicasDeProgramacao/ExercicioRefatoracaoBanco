@@ -23,7 +23,7 @@ public class Persistencia
     {
     }
     
-    public static Persistencia getIntance()
+    public static Persistencia getInstance()
     {
     	if(instance == null)
     	{

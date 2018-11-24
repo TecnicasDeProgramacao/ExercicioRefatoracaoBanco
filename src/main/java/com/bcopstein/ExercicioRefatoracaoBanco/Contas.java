@@ -31,7 +31,12 @@ public class Contas
 	
 	public void setCorrente(int curr)
 	{		
-		this.corrente = this.getConta(curr);;
+		Conta c = this.getConta(curr);
+		if( c == null)
+		{
+			throw new NumberFormatException("Conta invalida");
+		}
+		this.corrente = this.getConta(curr);
 	}
 	
 	public void save()

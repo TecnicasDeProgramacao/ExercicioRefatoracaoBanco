@@ -31,6 +31,7 @@ public class Operacoes {
 	public List<Operacao> operacaoPorConta(int numConta)
 	{
 		List<Operacao> opsSelecionadas = new LinkedList<Operacao>();
+		this.loadOperacoes();
 		if(this.operacoes.size() <= 0) 
 		{
 			return opsSelecionadas;
@@ -63,6 +64,7 @@ public class Operacoes {
 	
 	public List<Operacao> getExtrato(int conta)
 	{
+		this.loadOperacoes();
 		List<Operacao> opsConta = new LinkedList<Operacao>();
 		for(Operacao op: this.operacoes)
 		{
@@ -85,7 +87,7 @@ public class Operacoes {
 		{
 			return false;
 		}
-		
+		this.loadOperacoes();
 		int totalDoDia = 0;
 		GregorianCalendar date = new GregorianCalendar();
 		totalDoDia += valor; 
@@ -157,6 +159,7 @@ public class Operacoes {
 		int day = 1;
 		double saldoDia = 0;
 		ArrayList<Operacao> opsMes = new ArrayList<Operacao>();
+		this.loadOperacoes();
 		for(Operacao op: this.operacoes)
 		{
 			if(op.getNumeroConta() == conta)
@@ -224,7 +227,7 @@ public class Operacoes {
 	{
 		int total = 0;
 		GregorianCalendar date = new GregorianCalendar();		
-
+		this.loadOperacoes();
 		for(Operacao o : operacoes) 
 		{					
 			if(o.getNumeroConta() == codConta && o.getMes() == mes+1 && o.getAno() == ano && 

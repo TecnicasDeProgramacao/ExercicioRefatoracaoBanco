@@ -46,5 +46,24 @@ public class LogicaOperacoes {
 		return Operacoes.getInstance().totalDebitos(Contas.getInstance().getCorrente().getNumero(), mes, ano);
 	}
 	
+	public static int getNumeroConta()
+	{
+		return Contas.getInstance().getCorrente().getNumero();
+	}
+	
+	public static String getNomeCorrent()
+	{
+		return Contas.getInstance().getCorrente().getCorrentista();
+	}
+	
+	public static String getStatusConta()
+	{
+		return Contas.getInstance().getCorrente().getStrStatus();
+	}
+	
+	public static double getLimRet()
+	{
+		return Contas.getInstance().getCorrente().getLimRetiradaDiaria();
+	}
 	
 }

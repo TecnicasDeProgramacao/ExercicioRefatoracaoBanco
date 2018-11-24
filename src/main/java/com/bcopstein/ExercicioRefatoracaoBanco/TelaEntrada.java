@@ -75,12 +75,12 @@ public class TelaEntrada {
 				Integer nroConta = Integer.parseInt(tfContaCorrente.getText());
 				// Codigo da camada de negócio
 				LogicaOperacoes.definirContaUso(nroConta);
-				Conta conta = contas.get(nroConta); 
-				if (conta == null) {
-					throw new NumberFormatException("Conta invalida");
-				}
+				//Conta conta = contas.get(nroConta); 
+				//if (conta == null) {
+				//	throw new NumberFormatException("Conta invalida");
+				//}
 				// Transformar o parâmetro "conta" na conta atual na camada de negócio
-				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada,conta, operacoes);
+				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada, operacoes);
 				Scene scene = toper.getTelaOperacoes();
 				mainStage.setScene(scene);
 			} catch (NumberFormatException ex) {

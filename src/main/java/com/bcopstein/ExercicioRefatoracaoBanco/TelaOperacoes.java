@@ -33,10 +33,10 @@ public class TelaOperacoes {
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 
-	public TelaOperacoes(Stage mainStage, Scene telaEntrada,Conta conta, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
+	public TelaOperacoes(Stage mainStage, Scene telaEntrada, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
-		this.conta = conta;
+		//this.conta = conta;
 		this.operacoes = operacoes;
 	}
 
@@ -47,13 +47,13 @@ public class TelaOperacoes {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
+		String dadosCorr = LogicaOperacoes.getNumeroConta()+" : "+LogicaOperacoes.getNomeCorrent();
 		Text scenetitle = new Text(dadosCorr);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		String categoria = "Categoria: "+conta.getStrStatus();
-		String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
+		String categoria = "Categoria: "+LogicaOperacoes.getStatusConta();
+		String limRetDiaria = "Limite retirada diaria: "+ LogicaOperacoes.getLimRet();
 
 		Label cat = new Label(categoria);
 		grid.add(cat, 0, 1);
@@ -65,13 +65,8 @@ public class TelaOperacoes {
 		grid.add(tit,0,3);
 
 		// Seleciona apenas o extrato da conta atual
-		operacoesConta = 
-				FXCollections.observableArrayList(
-						operacoes
-						.stream()
-						.filter(op -> op.getNumeroConta() == this.conta.getNumero())
-						.collect(Collectors.toList())
-						);
+		List<Operacao> lst = LogicaOperacoes.solicitaExtrato();
+ 		operacoesConta = FXCollections.observableArrayList(LogicaOperacoes.solicitaExtrato());
 
 		ListView<Operacao> extrato = new ListView<>(operacoesConta);
 		extrato.setPrefHeight(140);
@@ -79,7 +74,7 @@ public class TelaOperacoes {
 
 		tfSaldo = new TextField();
 		tfSaldo.setDisable(true);
-		tfSaldo.setText(""+conta.getSaldo());
+		tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
 		HBox valSaldo = new HBox(20);        
 		valSaldo.setAlignment(Pos.BOTTOM_LEFT);
 		valSaldo.getChildren().add(new Label("Saldo"));

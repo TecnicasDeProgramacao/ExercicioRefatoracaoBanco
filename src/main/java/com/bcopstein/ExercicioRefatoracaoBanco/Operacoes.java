@@ -44,7 +44,7 @@ public class Operacoes {
 	
 	public void loadOperacoes()
 	{
-		this.operacoes = Persistencia.getIntance().loadOperacoes();
+		this.operacoes = Persistencia.getInstance().loadOperacoes();
 	}
 
 	public void addOperacao(Operacao op)
@@ -54,6 +54,6 @@ public class Operacoes {
 	
 	public void saveOperacoes()
 	{
-		Persistencia.getIntance().saveOperacoes(this.operacoes);
+		Persistencia.getInstance().saveOperacoes(this.operacoes);
 	}
 }

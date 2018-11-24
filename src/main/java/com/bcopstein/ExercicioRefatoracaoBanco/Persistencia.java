@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.bcopstein.ExercicioRefatoracaoBanco.StatusContaFactory.Tipo;
+
 public class Persistencia 
 {
 	private static Persistencia instance = null;
@@ -51,7 +53,15 @@ public class Persistencia
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
                status = Integer.parseInt(sc.next());
-               Conta conta = new Conta(numero,nomeCorr,saldo,status);
+               Conta conta;
+               switch(status)
+               {
+               		case 0: conta = new Conta(numero,nomeCorr,saldo, StatusContaFactory.instance().createStatus(Tipo.SILVER)); break;
+               		case 1: conta = new Conta(numero,nomeCorr,saldo, StatusContaFactory.instance().createStatus(Tipo.GOLD)); break;
+               		case 2: conta = new Conta(numero,nomeCorr,saldo, StatusContaFactory.instance().createStatus(Tipo.PLATINUM)); break;
+               		default: throw new IllegalArgumentException();
+               }
+               
                contas.put(numero, conta);
            }
         }catch (IOException x){ 
@@ -126,11 +136,18 @@ public class Persistencia
                status = Integer.parseInt(sc.next()); 
                valor = Double.parseDouble(sc.next());
                tipo = Integer.parseInt(sc.next());
-               
+               Status st;
+               switch(status)
+               {
+               		case 0: st = StatusContaFactory.instance().createStatus(Tipo.SILVER); break; 
+               		case 1: st = StatusContaFactory.instance().createStatus(Tipo.GOLD); break;
+               		case 2: st = StatusContaFactory.instance().createStatus(Tipo.PLATINUM); break;
+               		default: throw new IllegalArgumentException();
+               }
                Operacao op = new Operacao(
             		   dia, mes, ano,
             		   hora, minuto, segundo,
-	                   numero, status,
+	                   numero, st,
 	                   valor, tipo);
                
                operacoes.add(op);

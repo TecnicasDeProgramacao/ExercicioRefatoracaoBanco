@@ -11,16 +11,17 @@ public class Conta {
 	private int numero;
 	private String correntista;
 	private double saldo;
-	private int status;
+	
+	private Status status;
 
 	public Conta(int umNumero, String umNome) {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = 0.0;
-		status = SILVER;
+		status = new Silver();
 	}
 	
-	public Conta(int umNumero, String umNome,double umSaldo, int umStatus) {
+	public Conta(int umNumero, String umNome, double umSaldo, Status umStatus) {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = umSaldo;
@@ -39,42 +40,34 @@ public class Conta {
 		return correntista;
 	}
 	
-	public int getStatus() {
-		return status;
+	public Status getStatus() {
+		return this.status;
 	}
 	
 	public String getStrStatus() {
-		switch(status) {
-		case 0:  return "Silver";
-		case 1:  return "Gold";
-		case 2:  return "Platinum";
-		default: return "none";
-
-		}
+		return this.status.getStrStatus();
 	}
 	
 	public double getLimRetiradaDiaria() {
-		switch(status) {
-		case 0:  return 5000.0;
-		case 1:  return 50000.0;
-		case 2:  return 500000.0;
-		default: return 0.0;
-		}
+		return this.status.getLimRetiradaDiaria();
 	}
 	
-	public void deposito(double valor) {
-		if (status == SILVER) {
-			saldo += valor;
-			if (saldo >= LIM_SILVER_GOLD) {
-				status = GOLD;
+	public void deposito(double valor) 
+	{
+		saldo += valor * this.status.valorizaDeposito();
+		if(this.status instanceof Silver)
+		{
+			if(saldo >= LIM_SILVER_GOLD)
+			{
+				this.status = new Gold();
 			}
-		} else if (status == GOLD) {
-			saldo += valor * 1.01;
-			if (saldo >= LIM_GOLD_PLATINUM) {
-				status = PLATINUM;
+		}
+		else if(this.status instanceof Gold)
+		{
+			if(saldo >= LIM_GOLD_PLATINUM)
+			{
+				this.status = new Platinum();
 			}
-		} else if (status == PLATINUM) {
-			saldo += valor * 1.025;
 		}
 	}
 
@@ -83,13 +76,13 @@ public class Conta {
 			return;
 		} else {
 			saldo = saldo - valor;
-			if (status == PLATINUM) {
+			if (status instanceof Platinum) {
 				if (saldo < LIM_PLATINUM_GOLD) {
-					status = GOLD;
+					status = new Gold();
 				}
-			} else if (status == GOLD) {
+			} else if (status instanceof Gold) {
 				if (saldo < LIM_GOLD_SILVER) {
-					status = SILVER;
+					status = new Silver();
 				}
 			}
 		}
@@ -97,7 +90,7 @@ public class Conta {
 
 	@Override
 	public String toString() {
-		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + status
+		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + this.status.getStrStatus()
 				+ "]";
 	}
 }

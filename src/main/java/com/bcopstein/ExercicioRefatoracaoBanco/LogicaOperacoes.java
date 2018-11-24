@@ -9,6 +9,41 @@ public class LogicaOperacoes {
 	private Contas contas;
 	
 	public LogicaOperacoes(){		
+				
+	}
+	
+	public static void definirContaUso(int curr){
+				
+		Contas.getInstance().setCorrente(curr);		
+	}
+	
+	public static boolean operacaoCredito(double valor){
+		
+		return Operacoes.getInstance().operacaoCredito(valor, Contas.getInstance().getCorrente());
+	}
+	
+	public static boolean operacaoDebito(double valor){
+		return Operacoes.getInstance().operacaoDebito(valor, Contas.getInstance().getCorrente());
+	}
+	
+	public static List<Operacao> solicitaExtrato(){
+		return Operacoes.getInstance().getExtrato(Contas.getInstance().getCorrente().getNumero());	
+	}
+	
+	public static double solicitaSaldo(){
+		return Contas.getInstance().getCorrente().getSaldo();
+	}
+	
+	public static double solicitaSaldoMedio(int mes, int ano){
+		return Operacoes.getInstance().getSaldoMedioMes(Contas.getInstance().getCorrente().getNumero(), mes, ano);
+	}
+	
+	public static int totalCreditos(int mes, int ano){
+		return Operacoes.getInstance().totalCreditos(Contas.getInstance().getCorrente().getNumero(), mes, ano);
+	}
+	
+	public static int totalDebitos(int mes, int ano){
+		return Operacoes.getInstance().totalDebitos(Contas.getInstance().getCorrente().getNumero(), mes, ano);
 	}
 	
 	

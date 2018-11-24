@@ -1,6 +1,7 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,4 +57,42 @@ public class Operacoes {
 	{
 		Persistencia.getInstance().saveOperacoes(this.operacoes);
 	}
+	
+	public double somaValoresDiarios(int numConta, int tipoOperacao)
+	{
+		this.loadOperacoes();
+		int totalDoDia = 0;
+		GregorianCalendar date = new GregorianCalendar();
+		for(Operacao o : operacoes) 
+		{					
+			if(o.getNumeroConta() == numConta && o.getDia() == date.get(GregorianCalendar.DAY_OF_MONTH)
+					&& o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR) && 
+					o.getTipoOperacao() == tipoOperacao) 
+			{
+				totalDoDia += o.getValorOperacao();
+			}
+		}
+		return totalDoDia;
+	}
+	
+	public List<Operacao> getListaOperacoes()
+	{
+		return operacoes;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

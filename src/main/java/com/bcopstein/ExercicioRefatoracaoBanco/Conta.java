@@ -21,6 +21,13 @@ public class Conta {
 		status = new Silver();
 	}
 	
+	public Conta(int umNumero, String umNome, double umSaldo, Status umStatus) {
+		numero = umNumero;
+		correntista = umNome;
+		saldo = umSaldo;
+		status = umStatus;
+	}
+	
 	public double getSaldo() {
 		return saldo;
 	}
@@ -85,38 +92,5 @@ public class Conta {
 	public String toString() {
 		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + this.status.getStrStatus()
 				+ "]";
-	}
-	
-	class Silver implements Status
-	{
-		public Status getStatus() { return this; }
-		
-		public String getStrStatus() { return "Silver"; }
-		
-		public double valorizaDeposito() { return 1.0; }
-		
-		public double getLimRetiradaDiaria() { return 5000.0; }
-	}
-	
-	class Gold implements Status
-	{
-		public Status getStatus() { return this; }
-		
-		public String getStrStatus() { return "Gold"; }
-		
-		public double valorizaDeposito() { return 1.01; }
-		
-		public double getLimRetiradaDiaria() { return 50000.0; }
-	}
-	
-	class Platinum implements Status
-	{
-		public Status getStatus() { return this; }
-		
-		public String getStrStatus() { return "Platinum"; }
-		
-		public double valorizaDeposito() { return 1.025; }
-		
-		public double getLimRetiradaDiaria() { return 500000.0; }
 	}
 }

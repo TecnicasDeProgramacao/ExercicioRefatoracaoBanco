@@ -10,11 +10,11 @@ public class Operacao {
     private int minuto;
     private int segundo;
     private int numeroConta;
-    private int statusConta;
+    private Status statusConta;
     private double valorOperacao;
     private int tipoOperacao;
     
-	public Operacao(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, int statusConta,
+	public Operacao(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, Status statusConta,
 			double valorOperacao, int tipoOperacao) {
 		super();
 		this.dia = dia;
@@ -57,7 +57,7 @@ public class Operacao {
 		return numeroConta;
 	}
 
-	public int getStatusConta() {
+	public Status getStatusConta() {
 		return statusConta;
 	}
 

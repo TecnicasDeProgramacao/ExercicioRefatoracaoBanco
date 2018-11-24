@@ -100,11 +100,20 @@ public class Operacoes {
 			return false;
 		}
 		
-		double totalDoDia = valor;		
+		int totalDoDia = 0;
 		GregorianCalendar date = new GregorianCalendar();
-		totalDoDia += Operacoes.getInstance().somaValoresDiarios(conta.getNumero(), 1);; 
-		Operacoes.getInstance().loadOperacoes();		
-		
+		totalDoDia += valor; 
+
+		for(Operacao o : operacoes) 
+		{					
+			if(o.getNumeroConta() == conta.getNumero() && o.getDia() == date.get(GregorianCalendar.DAY_OF_MONTH)
+					&& o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR) && 
+					o.getTipoOperacao() == 1) 
+			{
+				totalDoDia += o.getValorOperacao();
+			}
+		}          	            	  
+
 		if(totalDoDia > conta.getLimRetiradaDiaria()) 
 		{
 			return false;
@@ -129,7 +138,7 @@ public class Operacoes {
 		}	
 	} 
 	
-	/*public Boolean operacaoCredito(double valor, Conta conta)
+	public Boolean operacaoCredito(double valor, Conta conta)
 	{
 		
 		if (valor < 0.0) 
@@ -151,12 +160,44 @@ public class Operacoes {
 				conta.getStatus(),
 				valor,
 				0);
-		operacoes.add(op);   
+		this.addOperacao(op);
+		this.saveOperacoes();
 		return true;
-	}*/
+	}
 	
-	private List<Operacao> getListaOperacoes()
+	public int totalCreditos(int codConta, int mes, int ano)
 	{
-		return operacoes;
+		int total = 0;
+		GregorianCalendar date = new GregorianCalendar();		
+
+		for(Operacao o : operacoes) 
+		{					
+			if(o.getNumeroConta() == codConta && o.getMes() == mes+1 && o.getAno() == ano && 
+					o.getTipoOperacao() == 0) 
+			{
+				total+= 1;
+			}
+		}
+		return total;
+	}
+	
+	public int totalDebitos(int codConta, int mes, int ano)
+	{
+		int total = 0;		
+
+		for(Operacao o : operacoes) 
+		{					
+			if(o.getNumeroConta() == codConta && o.getMes() == mes+1 && o.getAno() == ano && 
+					o.getTipoOperacao() == 1) 
+			{
+				total+= 1;
+			}
+		}
+		return total;
 	}
 }
+
+
+
+
+

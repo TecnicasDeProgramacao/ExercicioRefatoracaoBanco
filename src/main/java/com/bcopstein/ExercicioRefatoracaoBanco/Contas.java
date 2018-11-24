@@ -29,9 +29,9 @@ public class Contas
 		return this.corrente;
 	}
 	
-	public void setCorrente(Conta curr)
-	{
-		this.corrente = curr;
+	public void setCorrente(int curr)
+	{		
+		this.corrente = this.getConta(curr);;
 	}
 	
 	public void save()
@@ -39,4 +39,14 @@ public class Contas
 		Persistencia.getInstance().saveContas((Collection<Conta>)this.contas);
 	}
 
+	public void loadContas()
+	{
+		this.contas = Persistencia.getInstance().loadContas();
+	}
+	
+	public Conta getConta(int codConta)
+	{
+		this.loadContas();
+		return contas.get(codConta);
+	}
 }

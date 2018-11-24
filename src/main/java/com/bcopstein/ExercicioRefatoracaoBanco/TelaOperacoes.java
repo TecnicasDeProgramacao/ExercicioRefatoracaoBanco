@@ -33,7 +33,7 @@ public class TelaOperacoes {
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 
-	public TelaOperacoes(Stage mainStage, Scene telaEntrada, Conta conta, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
+	public TelaOperacoes(Stage mainStage, Scene telaEntrada,Conta conta, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
 		this.conta = conta;
@@ -108,7 +108,8 @@ public class TelaOperacoes {
 		btnCredito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				if (valor < 0.0) {
+				LogicaOperacoes.operacaoCredito(valor);
+				/*if (valor < 0.0) {
 					throw new NumberFormatException("Valor invalido");
 				}
 				//String statusAnt = conta.getStrStatus();
@@ -127,9 +128,9 @@ public class TelaOperacoes {
 						conta.getStatus(),
 						valor,
 						0);
-				operacoes.add(op);        	  
+				operacoes.add(op);*/        	  
 				tfSaldo.setText(""+conta.getSaldo());
-				operacoesConta.add(op);
+				//operacoesConta.add(op);
 
 			}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);

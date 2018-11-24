@@ -61,23 +61,6 @@ public class Operacoes {
 		Persistencia.getInstance().saveOperacoes(this.operacoes);
 	}
 	
-	public double somaValoresDiarios(int numConta, int tipoOperacao)
-	{
-		this.loadOperacoes();
-		int totalDoDia = 0;
-		GregorianCalendar date = new GregorianCalendar();
-		for(Operacao o : this.operacoes) 
-		{					
-			if(o.getNumeroConta() == numConta && o.getDia() == date.get(GregorianCalendar.DAY_OF_MONTH)
-					&& o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR) && 
-					o.getTipoOperacao() == tipoOperacao) 
-			{
-				totalDoDia += o.getValorOperacao();
-			}
-		}
-		return totalDoDia;
-	}
-	
 	public List<Operacao> getExtrato(int conta)
 	{
 		List<Operacao> opsConta = new LinkedList<Operacao>();

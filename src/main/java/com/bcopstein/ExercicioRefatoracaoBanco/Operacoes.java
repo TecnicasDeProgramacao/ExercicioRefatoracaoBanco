@@ -224,7 +224,7 @@ public class Operacoes {
 		GregorianCalendar date = new GregorianCalendar();
 		for(Operacao o : operacoes) 
 		{					
-			if(o.getNumeroConta() == codConta && o.getMes() == mes+1 && o.getAno() == ano && 
+			if(o.getNumeroConta() == codConta && o.getMes() == mes && o.getAno() == ano && 
 					o.getTipoOperacao() == 0) 
 			{
 				total+= 1;
@@ -239,7 +239,7 @@ public class Operacoes {
 
 		for(Operacao o : operacoes) 
 		{					
-			if(o.getNumeroConta() == codConta && o.getMes() == mes+1 && o.getAno() == ano && 
+			if(o.getNumeroConta() == codConta && o.getMes() == mes && o.getAno() == ano && 
 					o.getTipoOperacao() == 1) 
 			{
 				total+= 1;

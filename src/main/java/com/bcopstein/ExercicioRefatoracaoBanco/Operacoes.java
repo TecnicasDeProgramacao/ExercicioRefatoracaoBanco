@@ -79,8 +79,7 @@ public class Operacoes {
 	{
 		if (valor < 0.0 || valor > conta.getSaldo()) 
 		{
-			//throw new NumberFormatException("Saldo insuficiente");
-			return false;
+			throw new NumberFormatException("Saldo insuficiente");			
 		}
 		if(valor > conta.getLimRetiradaDiaria()) 
 		{
@@ -119,7 +118,7 @@ public class Operacoes {
 					valor,
 					1);
 			this.addOperacao(op);
-			this.saveOperacoes();
+			//this.saveOperacoes();
 			return true;
 		}	
 	} 
@@ -129,7 +128,7 @@ public class Operacoes {
 
 		if (valor < 0.0)
 		{
-			return false;
+			throw new NumberFormatException("Valor invalido");
 		}
 		conta.deposito(valor);
 
@@ -146,7 +145,7 @@ public class Operacoes {
 				valor,
 				0);
 		this.addOperacao(op);
-		this.saveOperacoes();
+		//this.saveOperacoes();
 		return true;
 	}
 

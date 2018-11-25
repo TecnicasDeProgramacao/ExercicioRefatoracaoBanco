@@ -55,7 +55,7 @@ public class TelaEstatisticas
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		Scene cenaEstatisticas = new Scene(grid);
 		
-		String dadosCorr = conta.getNumero()+" : "+conta.getCorrentista();
+		String dadosCorr = LogicaOperacoes.getNumeroConta()+" : "+LogicaOperacoes.getNomeCorrent();
 		Text scenetitle = new Text(dadosCorr);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -83,74 +83,12 @@ public class TelaEstatisticas
 			LocalDate ld = dp.getValue();
 			int mes = ld.getMonthValue();
 			int ano = ld.getYear();
-			ArrayList<Double> saldosDias = new ArrayList<Double>();
-			double totalMes = 0;
-			int day = 1;
-			double saldoDia = 0;
-			int creditos = 0, debitos = 0;
-			ArrayList<Operacao> opsMes = new ArrayList<Operacao>();
-			for(Operacao op: this.operacoes)
-			{
-				if(op.getNumeroConta() == this.conta.getNumero())
-				{
-					if(op.getAno() < ano || op.getMes() < mes)
-					{
-						
-						if(op.getTipoOperacao() == 0) //CRÉDITO
-						{
-							saldoDia += op.getValorOperacao();
-						}
-						else //DÉBITO
-						{
-							saldoDia -= op.getValorOperacao();
-						}
-					}
-					else
-					{
-						opsMes.add(op);
-					}
-				}
-			}
 			
-			if(opsMes.isEmpty())
-			{
-				for(int i = 1; i < 31; i++)
-				{
-					saldosDias.add(saldoDia);
-				}
-			}
-			else
-			{
-				for(Operacao op: opsMes)
-				{
-					while(op.getDia() > day)
-					{
-						saldosDias.add(saldoDia);
-						day++;
-					}
-					
-					if(op.getTipoOperacao() == 0)
-					{
-						saldoDia += op.getValorOperacao();
-						creditos++;
-					}
-					else
-					{
-						saldoDia -= op.getValorOperacao();
-						debitos++;
-					}
-				}
-				while(saldosDias.size() < 30)
-				{
-					saldosDias.add(saldoDia);
-				}
-			}
-			for(Double d: saldosDias)
-			{
-				totalMes += d;
-			}
-			double media = totalMes/30.0;
-			saldoMedioMes.setText("Saldo Médio do Mês: " + media);
+			double medio = LogicaOperacoes.solicitaSaldoMedio(mes, ano);
+			int creditos = LogicaOperacoes.totalCreditos(mes, ano); 
+			int debitos = LogicaOperacoes.totalDebitos(mes, ano);
+			
+			saldoMedioMes.setText("Saldo Médio do Mês: " + medio);
 			credits.setText("Créditos: " + creditos);
 			debits.setText("Débitos: " + debitos);
 			
@@ -169,8 +107,8 @@ public class TelaEstatisticas
 			mainStage.setScene(cenaOperacoes);
 		});
 		
-		String categoria = "Categoria: "+conta.getStrStatus();
-		String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
+		String categoria = "Categoria: "+LogicaOperacoes.getStatusConta();
+		String limRetDiaria = "Limite retirada diaria: "+LogicaOperacoes.getLimRet();
 
 		Label cat = new Label(categoria);
 		grid.add(cat, 0, 1);

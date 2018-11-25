@@ -103,7 +103,7 @@ public class TelaOperacoes {
 		btnCredito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				LogicaOperacoes.operacaoCredito(valor);
+				boolean x = LogicaOperacoes.operacaoCredito(valor);
 				/*if (valor < 0.0) {
 					throw new NumberFormatException("Valor invalido");
 				}
@@ -124,8 +124,8 @@ public class TelaOperacoes {
 						valor,
 						0);
 				operacoes.add(op);*/        	  
-				tfSaldo.setText(""+conta.getSaldo());
-				//operacoesConta.add(op);
+				tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
+				operacoesConta = FXCollections.observableArrayList(LogicaOperacoes.solicitaExtrato());
 
 			}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -140,64 +140,13 @@ public class TelaOperacoes {
 		btnDebito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				if (valor < 0.0 || valor > conta.getSaldo()) {
-					throw new NumberFormatException("Saldo insuficiente");
-				}
-				if(valor > conta.getLimRetiradaDiaria()) 
-				{
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Valor inválido !!");
-					alert.setHeaderText(null);
-					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");					
-					alert.showAndWait();
-					return;
-				}
-				int totalDoDia = 0;
-				GregorianCalendar date = new GregorianCalendar();
-				totalDoDia += valor; 
-
-				for(Operacao o : operacoes) 
-				{					
-					if(o.getNumeroConta() == conta.getNumero() && o.getDia() == date.get(GregorianCalendar.DAY_OF_MONTH)
-							&& o.getMes() == date.get(GregorianCalendar.MONTH)+1 && o.getAno() == date.get(GregorianCalendar.YEAR) && 
-							o.getTipoOperacao() == 1) 
-					{
-						totalDoDia += o.getValorOperacao();
-					}
-				}          	            	  
-
-				if(totalDoDia > conta.getLimRetiradaDiaria()) 
-				{
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Valor inválido !!");
-					alert.setHeaderText(null);
-					alert.setContentText("Valor de retirada maior que o limite diário para esta categoria.");
-					
-					alert.showAndWait();
-					return;
-				}
-				else {
-					conta.retirada(valor);
-					cat.setText("Categoria: " + conta.getStrStatus());
-
-					Operacao op = new Operacao(
-							date.get(GregorianCalendar.DAY_OF_MONTH),
-							date.get(GregorianCalendar.MONTH)+1,
-							date.get(GregorianCalendar.YEAR),
-							date.get(GregorianCalendar.HOUR),
-							date.get(GregorianCalendar.MINUTE),
-							date.get(GregorianCalendar.SECOND),
-							conta.getNumero(),
-							conta.getStatus(),
-							valor,
-							1);
-					// Esta adicionando em duas listas (resolver na camada de negocio)
-					operacoes.add(op);        	  
+				LogicaOperacoes.operacaoDebito(valor);
+					// Esta adicionando em duas listas (resolver na camada de negocio)					 	  
 					tfSaldo.setText(""+conta.getSaldo());
-					operacoesConta.add(op);
+					//operacoesConta.add(op);
 					tfSaldo.setText(""+conta.getSaldo());
 				}
-			}catch(NumberFormatException ex) {
+			catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
 				alert.setHeaderText(null);

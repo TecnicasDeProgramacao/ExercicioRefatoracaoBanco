@@ -5,65 +5,89 @@ import java.util.List;
 
 public class LogicaOperacoes {
 
+	private static LogicaOperacoes log;
 	private Operacoes operacoes;
 	private Contas contas;
 	
-	public LogicaOperacoes(){		
-				
+	public LogicaOperacoes(){}
+	
+	public static LogicaOperacoes instance()
+	{
+		if(log == null) return new LogicaOperacoes();
+		return log;
 	}
 	
-	public static void definirContaUso(int curr){
+	public void definirContaUso(int curr){
 				
 		Contas.getInstance().setCorrente(curr);		
 	}
 	
-	public static Operacao operacaoCredito(double valor){
+	public Operacao operacaoCredito(double valor){
 		
 		return Operacoes.getInstance().operacaoCredito(valor, Contas.getInstance().getCorrente());
 	}
 	
-	public static Operacao operacaoDebito(double valor){
+	public Operacao operacaoDebito(double valor){
 		return Operacoes.getInstance().operacaoDebito(valor, Contas.getInstance().getCorrente());
 	}
 	
-	public static List<Operacao> solicitaExtrato(){
+	public List<Operacao> solicitaExtrato(){
 		return Operacoes.getInstance().getExtrato(Contas.getInstance().getCorrente().getNumero());	
 	}
 	
-	public static double solicitaSaldo(){
+	public double solicitaSaldo(){
 		return Contas.getInstance().getCorrente().getSaldo();
 	}
 	
-	public static double solicitaSaldoMedio(int mes, int ano){
+	public double solicitaSaldoMedio(int mes, int ano){
 		return Operacoes.getInstance().getSaldoMedioMes(Contas.getInstance().getCorrente().getNumero(), mes, ano);
 	}
 	
-	public static int totalCreditos(int mes, int ano){
+	public int totalCreditos(int mes, int ano){
 		return Operacoes.getInstance().totalCreditos(Contas.getInstance().getCorrente().getNumero(), mes, ano);
 	}
 	
-	public static int totalDebitos(int mes, int ano){
+	public int totalDebitos(int mes, int ano){
 		return Operacoes.getInstance().totalDebitos(Contas.getInstance().getCorrente().getNumero(), mes, ano);
 	}
 	
-	public static int getNumeroConta()
+	public int getNumeroConta()
 	{
 		return Contas.getInstance().getCorrente().getNumero();
 	}
 	
-	public static String getNomeCorrent()
+	public String getNomeCorrent()
 	{
 		return Contas.getInstance().getCorrente().getCorrentista();
 	}
 	
-	public static String getStatusConta()
+	public String getStatusConta()
 	{
 		return Contas.getInstance().getCorrente().getStrStatus();
 	}
 	
-	public static double getLimRet()
+	public double getLimRet()
 	{
 		return Contas.getInstance().getCorrente().getLimRetiradaDiaria();
 	}
 	
+	public void loadContas()
+	{
+		Contas.getInstance().loadContas();
+	}
+	
+	public void loadOperacoes()
+	{
+		Operacoes.getInstance().loadOperacoes();
+	}
+	
+	public void saveContas()
+	{
+		Contas.getInstance().save();
+	}
+	
+	public void saveOperacoes()
+	{
+		Operacoes.getInstance().saveOperacoes();
+	}
 }

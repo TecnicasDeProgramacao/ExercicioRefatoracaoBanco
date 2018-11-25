@@ -71,13 +71,14 @@ public class Persistencia
         return contas;
     }
 
-    public void saveContas(Collection<Conta> contas) 
+    public void saveContas(Map<Integer,Conta> contas) 
     {
         Path path1 = Paths.get(NomeBDContas); 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
-            for(Conta c: contas) {
+            for(Map.Entry<Integer, Conta> entry: contas.entrySet()) {
             	int st = 0;
+            	Conta c = entry.getValue();
             	if(c.getStatus() instanceof Silver)
             	{
             		st = 0;

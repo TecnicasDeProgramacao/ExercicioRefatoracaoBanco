@@ -33,16 +33,12 @@ public class TelaEstatisticas
 	private Stage mainStage; 
 	private Scene cenaEntrada;
 	private Scene cenaOperacoes;
-	private List<Operacao> operacoes;
 	private ObservableList<Operacao> operacoesConta;
-	private Conta conta;
 	
-	public TelaEstatisticas(Stage mainStage, Scene telaOperacoes, Conta conta, List<Operacao> operacoes) 
+	public TelaEstatisticas(Stage mainStage, Scene telaOperacoes) 
 	{
 		this.mainStage = mainStage;
 		this.cenaOperacoes = telaOperacoes;
-		this.conta = conta;
-		this.operacoes = operacoes;
 	}
 	
 	@SuppressWarnings("restriction")
@@ -55,7 +51,7 @@ public class TelaEstatisticas
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		Scene cenaEstatisticas = new Scene(grid);
 		
-		String dadosCorr = LogicaOperacoes.getNumeroConta()+" : "+LogicaOperacoes.getNomeCorrent();
+		String dadosCorr = LogicaOperacoes.instance().getNumeroConta()+" : "+LogicaOperacoes.instance().getNomeCorrent();
 		Text scenetitle = new Text(dadosCorr);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
@@ -84,9 +80,9 @@ public class TelaEstatisticas
 			int mes = ld.getMonthValue();
 			int ano = ld.getYear();
 			
-			double medio = LogicaOperacoes.solicitaSaldoMedio(mes, ano);
-			int creditos = LogicaOperacoes.totalCreditos(mes, ano); 
-			int debitos = LogicaOperacoes.totalDebitos(mes, ano);
+			double medio = LogicaOperacoes.instance().solicitaSaldoMedio(mes, ano);
+			int creditos = LogicaOperacoes.instance().totalCreditos(mes, ano); 
+			int debitos = LogicaOperacoes.instance().totalDebitos(mes, ano);
 			
 			saldoMedioMes.setText("Saldo Médio do Mês: " + medio);
 			credits.setText("Créditos: " + creditos);
@@ -107,8 +103,8 @@ public class TelaEstatisticas
 			mainStage.setScene(cenaOperacoes);
 		});
 		
-		String categoria = "Categoria: "+LogicaOperacoes.getStatusConta();
-		String limRetDiaria = "Limite retirada diaria: "+LogicaOperacoes.getLimRet();
+		String categoria = "Categoria: "+LogicaOperacoes.instance().getStatusConta();
+		String limRetDiaria = "Limite retirada diaria: "+LogicaOperacoes.instance().getLimRet();
 
 		Label cat = new Label(categoria);
 		grid.add(cat, 0, 1);

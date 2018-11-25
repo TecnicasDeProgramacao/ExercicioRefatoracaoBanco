@@ -25,19 +25,15 @@ public class TelaOperacoes {
 	private Stage mainStage; 
 	private Scene cenaEntrada;
 	private Scene cenaOperacoes;
-	private List<Operacao> operacoes;
 	private ObservableList<Operacao> operacoesConta;
-
-	private Conta conta; 
 
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 
-	public TelaOperacoes(Stage mainStage, Scene telaEntrada, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
+	public TelaOperacoes(Stage mainStage, Scene telaEntrada) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
 		//this.conta = conta;
-		this.operacoes = operacoes;
 	}
 
 	public Scene getTelaOperacoes() {
@@ -47,13 +43,13 @@ public class TelaOperacoes {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		String dadosCorr = LogicaOperacoes.getNumeroConta()+" : "+LogicaOperacoes.getNomeCorrent();
+		String dadosCorr = LogicaOperacoes.instance().getNumeroConta()+" : "+LogicaOperacoes.instance().getNomeCorrent();
 		Text scenetitle = new Text(dadosCorr);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);
 
-		String categoria = "Categoria: "+LogicaOperacoes.getStatusConta();
-		String limRetDiaria = "Limite retirada diaria: "+ LogicaOperacoes.getLimRet();
+		String categoria = "Categoria: "+LogicaOperacoes.instance().getStatusConta();
+		String limRetDiaria = "Limite retirada diaria: "+ LogicaOperacoes.instance().getLimRet();
 
 		Label cat = new Label(categoria);
 		grid.add(cat, 0, 1);
@@ -65,8 +61,8 @@ public class TelaOperacoes {
 		grid.add(tit,0,3);
 
 		// Seleciona apenas o extrato da conta atual
-		List<Operacao> lst = LogicaOperacoes.solicitaExtrato();
- 		operacoesConta = FXCollections.observableArrayList(LogicaOperacoes.solicitaExtrato());
+		List<Operacao> lst = LogicaOperacoes.instance().solicitaExtrato();
+ 		operacoesConta = FXCollections.observableArrayList(LogicaOperacoes.instance().solicitaExtrato());
 
 		ListView<Operacao> extrato = new ListView<>(operacoesConta);
 		extrato.setPrefHeight(140);
@@ -74,7 +70,7 @@ public class TelaOperacoes {
 
 		tfSaldo = new TextField();
 		tfSaldo.setDisable(true);
-		tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
+		tfSaldo.setText(""+LogicaOperacoes.instance().solicitaSaldo());
 		HBox valSaldo = new HBox(20);        
 		valSaldo.setAlignment(Pos.BOTTOM_LEFT);
 		valSaldo.getChildren().add(new Label("Saldo"));
@@ -103,9 +99,9 @@ public class TelaOperacoes {
 		btnCredito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				Operacao op = LogicaOperacoes.operacaoCredito(valor);
+				Operacao op = LogicaOperacoes.instance().operacaoCredito(valor);
 				     	  
-				tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
+				tfSaldo.setText(""+LogicaOperacoes.instance().solicitaSaldo());
 				operacoesConta.add(op);				
 
 			}catch(NumberFormatException ex) {
@@ -121,8 +117,8 @@ public class TelaOperacoes {
 		btnDebito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				Operacao op =LogicaOperacoes.operacaoDebito(valor);
-					tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
+				Operacao op =LogicaOperacoes.instance().operacaoDebito(valor);
+					tfSaldo.setText(""+LogicaOperacoes.instance().solicitaSaldo());
 					operacoesConta.add(op);				
 				}
 			catch(NumberFormatException ex) 
@@ -147,7 +143,7 @@ public class TelaOperacoes {
 		
 		btnEst.setOnAction(e -> 
 		{
-			TelaEstatisticas test = new TelaEstatisticas(this.mainStage, this.cenaOperacoes,conta,operacoes);
+			TelaEstatisticas test = new TelaEstatisticas(this.mainStage, this.cenaOperacoes);
 			Scene scene = test.getTelaEstatisticas();
 			mainStage.setScene(scene);
 		});

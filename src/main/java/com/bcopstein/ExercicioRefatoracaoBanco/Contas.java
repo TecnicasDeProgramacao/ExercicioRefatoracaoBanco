@@ -41,7 +41,7 @@ public class Contas
 	
 	public void save()
 	{
-		Persistencia.getInstance().saveContas((Collection<Conta>)this.contas);
+		Persistencia.getInstance().saveContas(this.contas);
 	}
 
 	public void loadContas()

@@ -22,16 +22,12 @@ import javafx.stage.Stage;
 
 public class TelaEntrada {
 	private Stage mainStage; 
-	private Scene cenaEntrada; 
-	private Map<Integer, Conta> contas; 
-	private List<Operacao> operacoes; 
+	private Scene cenaEntrada;
 
 	private TextField tfContaCorrente;
 
-	public TelaEntrada(Stage anStage, Map<Integer, Conta> lstContas, List<Operacao> operacoes) {
+	public TelaEntrada(Stage anStage) {
 		mainStage = anStage;
-		contas = lstContas;
-		this.operacoes = operacoes;
 	}
 
 	public Scene getTelaEntrada() {
@@ -74,13 +70,13 @@ public class TelaEntrada {
 			try {
 				Integer nroConta = Integer.parseInt(tfContaCorrente.getText());
 				// Codigo da camada de negócio
-				LogicaOperacoes.definirContaUso(nroConta);
+				LogicaOperacoes.instance().definirContaUso(nroConta);
 				//Conta conta = contas.get(nroConta); 
 				//if (conta == null) {
 				//	throw new NumberFormatException("Conta invalida");
 				//}
 				// Transformar o parâmetro "conta" na conta atual na camada de negócio
-				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada, operacoes);
+				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada);
 				Scene scene = toper.getTelaOperacoes();
 				mainStage.setScene(scene);
 			} catch (NumberFormatException ex) {

@@ -17,12 +17,12 @@ public class LogicaOperacoes {
 		Contas.getInstance().setCorrente(curr);		
 	}
 	
-	public static boolean operacaoCredito(double valor){
+	public static Operacao operacaoCredito(double valor){
 		
 		return Operacoes.getInstance().operacaoCredito(valor, Contas.getInstance().getCorrente());
 	}
 	
-	public static boolean operacaoDebito(double valor){
+	public static Operacao operacaoDebito(double valor){
 		return Operacoes.getInstance().operacaoDebito(valor, Contas.getInstance().getCorrente());
 	}
 	

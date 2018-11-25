@@ -75,7 +75,7 @@ public class Operacoes {
 		return opsConta;
 	}
 	
-	public Boolean operacaoDebito(double valor, Conta conta)
+	public Operacao operacaoDebito(double valor, Conta conta)
 	{
 		if (valor < 0.0 || valor > conta.getSaldo()) 
 		{
@@ -83,7 +83,7 @@ public class Operacoes {
 		}
 		if(valor > conta.getLimRetiradaDiaria()) 
 		{
-			return false;
+			throw new IllegalArgumentException("Ultrapassa limite diario");
 		}
 		int totalDoDia = 0;
 		GregorianCalendar date = new GregorianCalendar();
@@ -101,7 +101,7 @@ public class Operacoes {
 
 		if(totalDoDia > conta.getLimRetiradaDiaria()) 
 		{
-			return false;
+			throw new IllegalArgumentException("Ultrapassa limite diario");
 		}
 		else
 		{
@@ -119,11 +119,11 @@ public class Operacoes {
 					1);
 			this.addOperacao(op);
 			//this.saveOperacoes();
-			return true;
+			return op;
 		}	
 	} 
 	
-	public Boolean operacaoCredito(double valor, Conta conta)
+	public Operacao operacaoCredito(double valor, Conta conta)
 	{
 
 		if (valor < 0.0)
@@ -146,7 +146,7 @@ public class Operacoes {
 				0);
 		this.addOperacao(op);
 		//this.saveOperacoes();
-		return true;
+		return op;
 	}
 
 	public double getSaldoMedioMes(int conta, int mes, int ano)

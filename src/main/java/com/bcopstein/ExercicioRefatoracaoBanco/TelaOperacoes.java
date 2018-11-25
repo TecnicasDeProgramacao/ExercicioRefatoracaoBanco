@@ -103,29 +103,10 @@ public class TelaOperacoes {
 		btnCredito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				boolean x = LogicaOperacoes.operacaoCredito(valor);
-				/*if (valor < 0.0) {
-					throw new NumberFormatException("Valor invalido");
-				}
-				//String statusAnt = conta.getStrStatus();
-				conta.deposito(valor);
-				cat.setText("Categoria: " + conta.getStrStatus());
-
-				GregorianCalendar date = new GregorianCalendar();
-				Operacao op = new Operacao(
-						date.get(GregorianCalendar.DAY_OF_MONTH),
-						date.get(GregorianCalendar.MONTH)+1,
-						date.get(GregorianCalendar.YEAR),
-						date.get(GregorianCalendar.HOUR),
-						date.get(GregorianCalendar.MINUTE),
-						date.get(GregorianCalendar.SECOND),
-						conta.getNumero(),
-						conta.getStatus(),
-						valor,
-						0);
-				operacoes.add(op);*/        	  
+				Operacao op = LogicaOperacoes.operacaoCredito(valor);
+				     	  
 				tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
-				operacoesConta = FXCollections.observableArrayList(LogicaOperacoes.solicitaExtrato());
+				operacoesConta.add(op);				
 
 			}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -140,20 +121,28 @@ public class TelaOperacoes {
 		btnDebito.setOnAction(e->{
 			try {
 				double valor = Integer.parseInt(tfValorOperacao.getText());
-				LogicaOperacoes.operacaoDebito(valor);
-					// Esta adicionando em duas listas (resolver na camada de negocio)					 	  
-					tfSaldo.setText(""+conta.getSaldo());
-					//operacoesConta.add(op);
-					tfSaldo.setText(""+conta.getSaldo());
+				Operacao op =LogicaOperacoes.operacaoDebito(valor);
+					tfSaldo.setText(""+LogicaOperacoes.solicitaSaldo());
+					operacoesConta.add(op);				
 				}
-			catch(NumberFormatException ex) {
+			catch(NumberFormatException ex) 
+			{
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
 				alert.setHeaderText(null);
 				alert.setContentText("Valor inválido para operacao de débito!");
 
 				alert.showAndWait();
-			}        	
+			}
+			catch(IllegalArgumentException ex)
+			{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Valor inválido !!");
+				alert.setHeaderText(null);
+				alert.setContentText("Valor de debito ultrapassa limite diario!");
+
+				alert.showAndWait();
+			}
 		});
 		
 		btnEst.setOnAction(e -> 

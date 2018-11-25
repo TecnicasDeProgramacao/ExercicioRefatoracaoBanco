@@ -51,7 +51,6 @@ public class Contas
 	
 	public Conta getConta(int codConta)
 	{
-		this.loadContas();
 		return contas.get(codConta);
 	}
 }

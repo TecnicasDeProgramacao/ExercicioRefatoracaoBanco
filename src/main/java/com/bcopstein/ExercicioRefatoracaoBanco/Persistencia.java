@@ -76,11 +76,29 @@ public class Persistencia
         Path path1 = Paths.get(NomeBDContas); 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
-            for(Conta c: contas) 
+            for(Conta c: contas) {
+            	int st = 0;
+            	if(c.getStatus() instanceof Silver)
+            	{
+            		st = 0;
+            	}
+            	else if(c.getStatus() instanceof Gold)
+            	{
+            		st = 1;
+            	}
+            	else if(c.getStatus() instanceof Platinum)
+            	{
+            		st = 2;
+            	}
+            	else
+            	{
+            		throw new IllegalArgumentException("Status invalido");
+            	}
                 writer.format(Locale.ENGLISH,
                 		      "%d;%s;%f;%d;",
                 		      c.getNumero(),c.getCorrentista(), 
-                              c.getSaldo(),c.getStatus()); 
+                              c.getSaldo(),st); 
+            }
         } 
         catch (IOException x) 
         { 
@@ -93,14 +111,33 @@ public class Persistencia
         Path path1 = Paths.get(NomeBDOperacoes); 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(path1, Charset.defaultCharset()))) 
         { 
-            for(Operacao op:operacoes) 
+            for(Operacao op:operacoes)
+            {
+            	int st = 0;
+            	if(op.getStatusConta() instanceof Silver)
+            	{
+            		st = 0;
+            	}
+            	else if(op.getStatusConta() instanceof Gold)
+            	{
+            		st = 1;
+            	}
+            	else if(op.getStatusConta() instanceof Platinum)
+            	{
+            		st = 2;
+            	}
+            	else
+            	{
+            		throw new IllegalArgumentException("Status invalido");
+            	}
                 writer.format(Locale.ENGLISH,
                 		      "%d;%d;%d;%d;%d;%d;%d;%d;%f;%d;",  
                               op.getDia(),op.getMes(),op.getAno(),
                               op.getHora(),op.getMinuto(),op.getSegundo(),
-                              op.getNumeroConta(),op.getStatusConta(),
+                              op.getNumeroConta(),st,
                               op.getValorOperacao(),op.getTipoOperacao()
                              ); 
+            }
         } 
         catch (IOException x) 
         { 

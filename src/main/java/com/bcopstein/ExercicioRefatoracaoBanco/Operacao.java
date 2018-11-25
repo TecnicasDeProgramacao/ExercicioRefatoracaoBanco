@@ -78,7 +78,7 @@ public class Operacao {
 		String line = dia+"/"+mes+"/"+ano+" "+
 	                  hora+":"+minuto+":"+segundo+" "+
 				      numeroConta+" "+
-	                  statusConta +" "+
+	                  statusConta.getStrStatus() +" "+
 				      tipo+" "+
 	                  valorOperacao;
 		return(line);

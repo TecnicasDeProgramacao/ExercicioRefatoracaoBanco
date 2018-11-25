@@ -106,7 +106,7 @@ public class Operacoes {
 		else
 		{
 			conta.retirada(valor);
-			Operacao op = new Operacao(
+			Operacao op = DebitoFactory.instance().factoryMethod(
 					date.get(GregorianCalendar.DAY_OF_MONTH),
 					date.get(GregorianCalendar.MONTH)+1,
 					date.get(GregorianCalendar.YEAR),
@@ -115,8 +115,7 @@ public class Operacoes {
 					date.get(GregorianCalendar.SECOND),
 					conta.getNumero(),
 					conta.getStatus(),
-					valor,
-					1);
+					valor);
 			this.addOperacao(op);
 			//this.saveOperacoes();
 			return op;
@@ -133,7 +132,7 @@ public class Operacoes {
 		conta.deposito(valor);
 
 		GregorianCalendar date = new GregorianCalendar();
-		Operacao op = new Operacao(
+		Operacao op = CreditoFactory.instance().factoryMethod(
 				date.get(GregorianCalendar.DAY_OF_MONTH),
 				date.get(GregorianCalendar.MONTH)+1,
 				date.get(GregorianCalendar.YEAR),
@@ -142,8 +141,7 @@ public class Operacoes {
 				date.get(GregorianCalendar.SECOND),
 				conta.getNumero(),
 				conta.getStatus(),
-				valor,
-				0);
+				valor);
 		this.addOperacao(op);
 		//this.saveOperacoes();
 		return op;

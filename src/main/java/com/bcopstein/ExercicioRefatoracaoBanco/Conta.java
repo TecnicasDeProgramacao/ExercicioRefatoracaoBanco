@@ -1,8 +1,15 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
+import org.jmlspecs.models.JMLDouble; /*EH NECESSARIO INCLUIR O JAR DO OPENJML PARA O ECLIPSE NAO RECLAMAR*/
 public class Conta {
-	public final int SILVER = 0;
-	public final int GOLD = 1;
-	public final int PLATINUM = 2;
+	/*
+	 * @ instance initially saldo = 0;
+	 * @ instance initially status.getStrStatus() == "Silver";
+	 * @ instance invariant numero > 0;
+	 * @ instance invariant saldo >= 0;
+	 * @ instance invariant nome.length() > 0 && nome != null;
+	 */
+	
 	public final int LIM_SILVER_GOLD = 50000;
 	public final int LIM_GOLD_PLATINUM = 200000;
 	public final int LIM_PLATINUM_GOLD = 100000;
@@ -28,30 +35,58 @@ public class Conta {
 		status = umStatus;
 	}
 	
-	public double getSaldo() {
+	/*
+	 * @ ensures \result >= 0;
+	 */
+	public /*@ pure helper @*/ double getSaldo() {
 		return saldo;
 	}
 
-	public Integer getNumero() {
+	/*
+	 * @ ensures \result > 0;
+	 */
+	public int getNumero() {
 		return numero;
 	}
 	
+	/*
+	 * @ ensures \result != null && result.length() > 0;
+	 */
 	public String getCorrentista() {
 		return correntista;
 	}
 	
+	/*
+	 * @ ensures (\result.getStrStatus == "Silver" || \result.getStrStatus == "Gold" || \result.getStrStatus == "Platinum");
+	 */
 	public Status getStatus() {
 		return this.status;
 	}
 	
+	/*
+	 * @ ensures (\result == "Silver" || \result == "Gold" || \result == "Platinum");
+	 */
 	public String getStrStatus() {
 		return this.status.getStrStatus();
 	}
 	
+	/*
+	 * @ ensures (getStrStatus() == "Silver") ==> (\result == 5000.0);
+	 * @ ensures (getStrStatus() == "Gold") ==> (\result == 50000.0); 
+	 * @ ensures (getStrStatus() == "Platinum") ==> (\result == 500000.0);
+	 */ 
 	public double getLimRetiradaDiaria() {
 		return this.status.getLimRetiradaDiaria();
 	}
 	
+	/*
+	 * @ requires valor >= 0;
+	 * @ ensures (\old(this.getStrStatus()) == "Silver") ==> saldo == \old(saldo) + valor;
+	 * @ ensures (\old(this.getStrStatus()) == "Gold") ==> JMLDouble.approximatelyEqualTo(saldo, (double)(\old(saldo) + (valor * 1.01)), (double)0.001);
+	 * @ ensures (\old(this.getStrStatus()) == "Platinum") ==> JMLDouble.approximatelyEqualTo(saldo, (double)(\old(saldo) + (valor * 1.025)), (double)0.001);
+	 * @ ensures (\old(this.getStrStatus()) == "Silver) && (this.saldo > 50000) ==> this.getStrStatus() == "Gold";
+	 * @ ensures (\old(this.getStrStatus()) == "Gold) && (this.saldo > 200000) ==> this.getStrStatus() == "Platinum";
+	 */
 	public void deposito(double valor) 
 	{
 		saldo += valor * this.status.valorizaDeposito();
@@ -70,7 +105,14 @@ public class Conta {
 			}
 		}
 	}
-
+	
+	/*
+	 * @ requires valor >= 0;
+	 * @ requires valor <= getLimRetiradaDiaria();
+	 * @ ensures JMLDouble.approximatelyEqualTo(saldo, (double)(\old(saldo) - valor), (double)0.001);
+	 * @ ensures (\old(this.getStrStatus()) == "Gold) && (this.saldo < 25000) ==> this.getStrStatus() == "Silver";
+	 * @ ensures (\old(this.getStrStatus()) == "Platinum) && (this.saldo > 100000) ==> this.getStrStatus() == "Gold";
+	 */
 	public void retirada(double valor) {
 		if (saldo - valor < 0.0) {
 			return;
@@ -88,6 +130,9 @@ public class Conta {
 		}
 	}
 
+	/*
+	 * @ ensures \result.length() > 0 && \result != null;
+	 */
 	@Override
 	public String toString() {
 		return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + this.status.getStrStatus()

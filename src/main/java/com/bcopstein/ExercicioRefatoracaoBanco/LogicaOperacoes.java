@@ -13,7 +13,7 @@ public class LogicaOperacoes {
 	
 	public static LogicaOperacoes instance()
 	{
-		if(log == null) return new LogicaOperacoes();
+		if(log == null) log = new LogicaOperacoes();
 		return log;
 	}
 	

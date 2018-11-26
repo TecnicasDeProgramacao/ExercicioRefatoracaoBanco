@@ -16,7 +16,6 @@ public class Operacoes {
 	private Operacoes() 
 	{
 		this.operacoes = new LinkedList<Operacao>();
-		this.loadOperacoes();
 	}
 
 	public static Operacoes getInstance() 
@@ -117,14 +116,12 @@ public class Operacoes {
 					conta.getStatus(),
 					valor);
 			this.addOperacao(op);
-			//this.saveOperacoes();
 			return op;
 		}	
 	} 
 	
 	public Operacao operacaoCredito(double valor, Conta conta)
 	{
-
 		if (valor < 0.0)
 		{
 			throw new NumberFormatException("Valor invalido");
@@ -143,7 +140,6 @@ public class Operacoes {
 				conta.getStatus(),
 				valor);
 		this.addOperacao(op);
-		//this.saveOperacoes();
 		return op;
 	}
 
@@ -154,14 +150,12 @@ public class Operacoes {
 		int day = 1;
 		double saldoDia = 0;
 		ArrayList<Operacao> opsMes = new ArrayList<Operacao>();
-		this.loadOperacoes();
 		for(Operacao op: this.operacoes)
 		{
 			if(op.getNumeroConta() == conta)
-			{
-				if(op.getAno() < ano || op.getMes() < mes)
+			{				
+				if(op.getAno() < ano)
 				{
-					
 					if(op.getTipoOperacao() == 0) //CRÉDITO
 					{
 						saldoDia += op.getValorOperacao();
@@ -171,7 +165,20 @@ public class Operacoes {
 						saldoDia -= op.getValorOperacao();
 					}
 				}
-				else
+				
+				else if(op.getMes() < mes && op.getAno() == ano)
+				{					
+					if(op.getTipoOperacao() == 0) //CRÉDITO
+					{
+						saldoDia += op.getValorOperacao();
+					}
+					else //DÉBITO
+					{
+						saldoDia -= op.getValorOperacao();
+					}
+				}
+				
+				else if(op.getAno() == ano && op.getMes() == mes)
 				{
 					opsMes.add(op);
 				}

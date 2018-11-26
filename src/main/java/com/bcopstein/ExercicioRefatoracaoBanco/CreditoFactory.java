@@ -8,7 +8,7 @@ public class CreditoFactory implements OperacaoFactory
 	
 	public static OperacaoFactory instance()
 	{
-		if(cf == null) return new CreditoFactory();
+		if(cf == null) cf = new CreditoFactory();
 		return cf;
 	}
 	
@@ -16,6 +16,6 @@ public class CreditoFactory implements OperacaoFactory
 			double valorOperacao)
 	{
 		return new Operacao(dia, mes, ano, hora, minuto, segundo, numeroConta, statusConta,
-				valorOperacao, 1);
+				valorOperacao, 0);
 	}
 }

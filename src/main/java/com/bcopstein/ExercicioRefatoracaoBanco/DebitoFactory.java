@@ -8,7 +8,7 @@ public class DebitoFactory implements OperacaoFactory
 	
 	public static OperacaoFactory instance()
 	{
-		if(df == null) return new DebitoFactory();
+		if(df == null) df = new DebitoFactory();
 		return df;
 	}
 	

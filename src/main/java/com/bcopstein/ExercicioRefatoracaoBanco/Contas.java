@@ -2,6 +2,7 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import java.util.Map;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class Contas 
 {
@@ -12,7 +13,7 @@ public class Contas
 
 	private Contas() 
 	{
-		this.contas = Persistencia.getInstance().loadContas();
+		this.contas = new HashMap<Integer, Conta>();
 	}
 	
 	public static Contas getInstance()

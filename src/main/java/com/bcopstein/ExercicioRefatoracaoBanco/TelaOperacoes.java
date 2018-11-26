@@ -33,7 +33,6 @@ public class TelaOperacoes {
 	public TelaOperacoes(Stage mainStage, Scene telaEntrada) { // Tirar esse parâmetro																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
-		//this.conta = conta;
 	}
 
 	public Scene getTelaOperacoes() {

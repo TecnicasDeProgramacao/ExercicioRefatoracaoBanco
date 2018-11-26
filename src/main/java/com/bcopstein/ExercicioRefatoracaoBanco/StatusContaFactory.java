@@ -12,7 +12,7 @@ public class StatusContaFactory
 	{
 		if(scf == null)
 		{
-			return new StatusContaFactory();
+			scf = new StatusContaFactory();
 		}
 		return scf;
 	}

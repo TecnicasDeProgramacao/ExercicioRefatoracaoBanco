@@ -17,50 +17,67 @@ private Status mockStatus = mock(Status.class);
 	@BeforeEach
 	public void setUp() throws Exception {
 		when(mockStatus.getStrStatus()).thenReturn("Silver");
+		when(mockStatus.getStatus()).thenReturn(mockStatus);
+		
 		
 		op = new Operacao(1,1,2000,22,30,12,100, mockStatus,100.0,0);
 	}
 	
+	@Test
+	public void testToString() 
+	{
+		String ver = "1/1/2000 22:30:12 100 Silver <C> 100.0";
+		assertEquals(ver, op.toString());
+	}
 	
 	@Test
 	public void testGetDia() {
 		assertEquals(1,op.getDia());
 	}
 
+	@Test
 	public void testGetMes() {
 		assertEquals(1,op.getMes());
 	}
 
+	@Test
 	public void testGetAno() {
 		assertEquals(2000, op.getAno());
 	}
-
+	
+	@Test
 	public void testGetHora() {
 		assertEquals(22,op.getHora());
 	}
-
+	
+	@Test
 	public void testGetMinuto() {
 		assertEquals(30, op.getMinuto());
 	}
 
+	@Test
 	public void testGetSegundo() {
 		assertEquals(12, op.getSegundo());
 	}
 
-	/*public int getNumeroConta() {
-		return numeroConta;
+	@Test
+	public void testGetNumeroConta() {
+		assertEquals(100, op.getNumeroConta());
 	}
 
-	public Status getStatusConta() {
-		return statusConta;
+	@Test
+	public void testGetStatusConta() {
+		assertEquals(mockStatus, op.getStatusConta());
 	}
 
-	public double getValorOperacao() {
-		return valorOperacao;
+	@Test
+	public void testGetValorOperacao() {
+		assertEquals(100.0, op.getValorOperacao());
 	}
 
-	public int getTipoOperacao() {
-		return tipoOperacao;
-	}*/
-
+	@Test
+	public void testGetTipoOperacao() {
+		assertEquals(0, op.getTipoOperacao());
+	}
+	
 }

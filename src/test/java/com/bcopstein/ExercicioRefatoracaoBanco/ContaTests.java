@@ -81,9 +81,9 @@ public class ContaTests
 	public void testDepositoSilver(double valor, String newStatus, double newSaldo)
 	{
 		Conta conta1 = new Conta(1,"Joao",1200.0,mockSilver);		
-		System.out.println(conta1.getStrStatus());
+		
+		assertEquals(conta1.getStrStatus(), "Silver");
 		conta1.deposito(valor);
-		System.out.println(conta1.getStrStatus());
 		assertEquals(conta1.getSaldo(),newSaldo);
 		assertEquals(conta1.getStrStatus(),newStatus);
 	}

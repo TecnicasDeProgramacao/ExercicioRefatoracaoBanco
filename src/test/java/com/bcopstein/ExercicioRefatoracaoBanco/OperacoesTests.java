@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.lang.reflect.Field;
@@ -71,13 +70,14 @@ class OperacoesTests
 		f.set(Operacoes.getInstance(), operacoesM);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	void testOperacaoPorConta() 
 	{
-		Operacao[] lst = {mockOp1,mockOp2,mockOp4};
-		
-		assertThat(lst, is(Operacoes.getInstance().getExtrato(100).toArray()));
+		List<Operacao> lst = new LinkedList<Operacao>();
+		lst.add(mockOp1);
+		lst.add(mockOp2);
+		lst.add(mockOp4);
+		assertEquals(lst, Operacoes.getInstance().getExtrato(100));
 	}
 	
 	/*@Test

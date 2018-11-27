@@ -6,9 +6,13 @@ import org.junit.Test;
 
 public class ContaTester {
 
+	private Conta conta;
+	
 	@Test
-	public void test() {
-		assertEquals(1,1);
+	public void testGetNumeroConta() {		
+		conta = new Conta(1, "umNome");
+		//double result = conta.getSaldo();
+		assertEquals(1, conta.getNumero());
 	}
 
 }

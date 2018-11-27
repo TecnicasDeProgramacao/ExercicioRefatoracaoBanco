@@ -1,6 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import org.jmlspecs.models.JMLDouble; /*EH NECESSARIO INCLUIR O JAR DO OPENJML PARA O ECLIPSE NAO RECLAMAR*/
+//import org.jmlspecs.models.JMLDouble; /*EH NECESSARIO INCLUIR O JAR DO OPENJML PARA O ECLIPSE NAO RECLAMAR*/
 public class Conta {
 	/*
 	 * @ instance initially saldo = 0;

@@ -56,7 +56,7 @@ public class LogicaOperacoes {
 		return Contas.getInstance().getCorrente().getNumero();
 	}
 	
-	public String getNomeCorrent()
+	public String getNomeCorrente()
 	{
 		return Contas.getInstance().getCorrente().getCorrentista();
 	}

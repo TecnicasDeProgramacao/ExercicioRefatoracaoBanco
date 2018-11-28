@@ -49,7 +49,7 @@ public class TelaEstatisticas
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		Scene cenaEstatisticas = new Scene(grid);
 		
-		String dadosCorr = LogicaOperacoes.instance().getNumeroConta()+" : "+LogicaOperacoes.instance().getNomeCorrent();
+		String dadosCorr = LogicaOperacoes.instance().getNumeroConta()+" : "+LogicaOperacoes.instance().getNomeCorrente();
 		Text scenetitle = new Text(dadosCorr);
 		scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 		grid.add(scenetitle, 0, 0, 2, 1);

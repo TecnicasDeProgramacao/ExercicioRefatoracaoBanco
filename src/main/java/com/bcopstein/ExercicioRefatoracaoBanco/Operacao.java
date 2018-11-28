@@ -68,7 +68,19 @@ public class Operacao {
 	public int getTipoOperacao() {
 		return tipoOperacao;
 	}
-    
+	
+	public boolean equals(Operacao op)
+	{
+		if(this.getAno() == op.getAno() && this.getDia() == op.getDia() && this.getMes() == op.getMes()
+			&& this.getHora() == op.getHora() && this.getMinuto() == op.getMinuto() && this.getSegundo() == op.getSegundo()
+			&& this.getNumeroConta() == op.getNumeroConta() && this.getStatusConta() == op.getStatusConta() &&
+			this.getTipoOperacao() == op.getTipoOperacao() && this.getValorOperacao() == op.getValorOperacao())
+		{
+			return true;
+		}
+		return false;
+	}
+	    
 	@Override
 	public String toString() {
 		String tipo = "<C>";

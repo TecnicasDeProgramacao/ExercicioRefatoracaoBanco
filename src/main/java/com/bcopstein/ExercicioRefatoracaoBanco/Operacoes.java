@@ -28,24 +28,6 @@ public class Operacoes {
 		return (instance);
 	}
 	
-	public List<Operacao> operacaoPorConta(int numConta)
-	{
-		List<Operacao> opsSelecionadas = new LinkedList<Operacao>();
-		if(this.operacoes.size() <= 0) 
-		{
-			return opsSelecionadas;
-		}
-		
-		for(Operacao op : this.operacoes)
-		{
-			if(op.getNumeroConta() == numConta)
-			{
-				opsSelecionadas.add(op);
-			}
-		}		
-		return opsSelecionadas;
-	}
-	
 	public void loadOperacoes()
 	{
 		this.operacoes = Persistencia.getInstance().loadOperacoes();

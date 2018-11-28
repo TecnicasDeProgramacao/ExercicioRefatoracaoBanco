@@ -117,7 +117,8 @@ class OperacoesTests
 		int segundo = date.get(GregorianCalendar.SECOND);
 		Operacao op1 = CreditoFactory.instance().factoryMethod(dia, mes, ano, hora, minuto, segundo, mockConta.getNumero(), mockConta.getStatus(), 20.0);
 		Operacao op2 = Operacoes.getInstance().operacaoCredito(20.0, mockConta);
-		assertTrue(op1.equals(op2));
+		assertTrue(operacoesM.contains(op2));
+		assertTrue(op1.equals(op2));		
 	}
 	
 	@Test
@@ -139,7 +140,8 @@ class OperacoesTests
 		int segundo = date.get(GregorianCalendar.SECOND);
 		Operacao op1 = DebitoFactory.instance().factoryMethod(dia, mes, ano, hora, minuto, segundo, mockConta.getNumero(), mockConta.getStatus(), 20);
 		Operacao op2 = Operacoes.getInstance().operacaoDebito(20.0, mockConta);
-		assertTrue(op1.equals(op2));
+		assertTrue(operacoesM.contains(op2));
+		assertTrue(op1.equals(op2));		
 	}
 	
 	@Test
@@ -179,7 +181,7 @@ class OperacoesTests
 		when(mockConta.getStatus()).thenReturn(mockStatus);
 		when(mockConta.getCorrentista()).thenReturn("José Bezerra");
 		when(mockConta.getSaldo()).thenReturn(150.0);
-		assertThrows(IllegalArgumentException.class,() -> Operacoes.getInstance().operacaoDebito(160.0, mockConta));
+		assertThrows(NumberFormatException.class,() -> Operacoes.getInstance().operacaoDebito(1600.0, mockConta));
 	}
 	
 	@Test

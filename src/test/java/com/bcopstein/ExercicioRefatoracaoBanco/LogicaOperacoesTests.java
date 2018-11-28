@@ -16,6 +16,9 @@ import java.lang.reflect.Method;
 
 class LogicaOperacoesTests {
 
+	private LinkedList<Operacao> operacoes;
+	HashMap<Integer, Conta> contas;
+	
 	@BeforeEach
 	public void setUp() throws Exception 
 	{
@@ -23,7 +26,7 @@ class LogicaOperacoesTests {
 		Status s2 = new Platinum();
 		Conta c1 = new Conta(1, "Juca Batista", 136680.0, s1);
 		Conta c2 = new Conta(2, "Jorge Furtado");
-		Conta c3 = new Conta(3, "Ian de Braganca e Lins");
+		Conta c3 = new Conta(3, "Ian de Braganca e Lins", 260500.0, s2);
 		
 		//Operacoes Juca
 		Operacao op1 = new Operacao(2,5,2018,2,32,17,1,s1,5000.0,0);
@@ -40,11 +43,12 @@ class LogicaOperacoesTests {
 		Operacao op10 = new Operacao(12,9,2018,8,7,0,3,s2,20000.0,0);
 		Operacao op11 = new Operacao(30,9,2018,3,25,43,3,s2,10000.0,1);
 		
-		HashMap<Integer, Conta> contas = new HashMap<Integer, Conta>();
-		LinkedList<Operacao> operacoes = new LinkedList<Operacao>();
+		this.contas = new HashMap<Integer, Conta>();
+		this.operacoes = new LinkedList<Operacao>();
 		
 		contas.put(1, c1);
 		contas.put(2, c2);
+		contas.put(3, c3);
 		
 		operacoes.add(op1);
 		operacoes.add(op2);
@@ -94,54 +98,165 @@ class LogicaOperacoesTests {
 	}
 	
 	@Test
-	void testOperacaoCredito() 
+	void testOperacaoCreditoSilver() 
 	{
-		double valorOp = Contas.getInstance().getCorrente().getSaldo();
-		valorOp+=45;
-		LogicaOperacoes.instance().operacaoCredito(45);
-		assertEquals(valorOp, Contas.getInstance().getCorrente().getSaldo());
+		LogicaOperacoes.instance().definirContaUso(2);
+		Operacao op = LogicaOperacoes.instance().operacaoCredito(400.0);
+		assertEquals(400, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
 	}
 	
 	@Test
-	void testOperacaoDebito() 
+	void testOperacaoCreditoGold() 
 	{
-		double valorOp = Contas.getInstance().getCorrente().getSaldo();
-		valorOp-=15;
-		LogicaOperacoes.instance().operacaoDebito(15);
-		assertEquals(valorOp, Contas.getInstance().getCorrente().getSaldo());
+		LogicaOperacoes.instance().definirContaUso(1);
+		Operacao op = LogicaOperacoes.instance().operacaoCredito(1000.0);
+		assertEquals(137690.0, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
+	}
+	
+	@Test
+	void testOperacaoCreditoPlatinum() 
+	{
+		LogicaOperacoes.instance().definirContaUso(3);
+		Operacao op = LogicaOperacoes.instance().operacaoCredito(50000.0);
+		assertEquals(311750.0, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
+	}
+	
+	@Test
+	void testOperacaoDebitoSilver() 
+	{
+		LogicaOperacoes.instance().definirContaUso(2);
+		LogicaOperacoes.instance().operacaoCredito(1500.0);
+		Operacao op = LogicaOperacoes.instance().operacaoDebito(1000.0);
+		assertEquals(500.0, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
+	}
+	
+	@Test
+	void testOperacaoDebitoSilverSaldoInsuficiente() 
+	{
+		LogicaOperacoes.instance().definirContaUso(2);
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(5.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoSilverLimDiario1() 
+	{
+		LogicaOperacoes.instance().definirContaUso(2);
+		LogicaOperacoes.instance().operacaoCredito(6000.0);	
+		LogicaOperacoes.instance().operacaoDebito(5000.0);		
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(1.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoSilverLimDiario2() 
+	{
+		LogicaOperacoes.instance().definirContaUso(2);
+		LogicaOperacoes.instance().operacaoCredito(6000.0);		
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(5001.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoGold() 
+	{
+		LogicaOperacoes.instance().definirContaUso(1);
+		Operacao op = LogicaOperacoes.instance().operacaoDebito(1000.0);
+		assertEquals(135680.0, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
+	}
+	
+	@Test
+	void testOperacaoDebitoGoldSaldoInsuficiente() 
+	{
+		LogicaOperacoes.instance().definirContaUso(1);
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(136690.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoGoldLimDiario1() 
+	{
+		LogicaOperacoes.instance().definirContaUso(1);
+		LogicaOperacoes.instance().operacaoDebito(50000.0);		
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(1.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoGoldLimDiario2() 
+	{
+		LogicaOperacoes.instance().definirContaUso(1);	
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(50001.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoPlatinum() 
+	{
+		LogicaOperacoes.instance().definirContaUso(3);
+		Operacao op = LogicaOperacoes.instance().operacaoDebito(1000.0);
+		assertEquals(259500, Contas.getInstance().getCorrente().getSaldo());
+		assertTrue(this.operacoes.contains(op));
+	}
+	
+	@Test
+	void testOperacaoDebitoPlatinumSaldoInsuficiente() 
+	{
+		LogicaOperacoes.instance().definirContaUso(3);
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(261000.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoPlatinumLimDiario1() 
+	{
+		LogicaOperacoes.instance().definirContaUso(3);
+		LogicaOperacoes.instance().operacaoCredito(250000.0);	
+		LogicaOperacoes.instance().operacaoDebito(500000.0);		
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(1.0));
+	}
+	
+	@Test
+	void testOperacaoDebitoPlatinumLimDiario2() 
+	{
+		LogicaOperacoes.instance().definirContaUso(3);
+		LogicaOperacoes.instance().operacaoCredito(250000.0);		
+		assertThrows(IllegalArgumentException.class,() -> LogicaOperacoes.instance().operacaoDebito(500001.0));
 	}
 
 	@Test
 	void testGetSaldo() 
 	{	
-		assertEquals(Contas.getInstance().getCorrente().getSaldo(), LogicaOperacoes.instance().solicitaSaldo());
+		assertEquals(136680, LogicaOperacoes.instance().solicitaSaldo());
 	}
 	
 	@Test
 	void testSolicitaExtrato() 
 	{
-		List<Operacao> lst = Operacoes.getInstance().getExtrato(130);
+		List<Operacao> lst = new LinkedList<Operacao>();
+		for(Operacao o: this.operacoes)
+		{
+			if(o.getNumeroConta() == 1)
+			{
+				lst.add(o);
+			}
+		}
 		assertEquals(lst, LogicaOperacoes.instance().solicitaExtrato());
 	}
 	
 	@Test 
 	void testTotalCreditos()
 	{
-		int num = Operacoes.getInstance().totalCreditos(130, 10, 2018);
-		assertEquals(num, LogicaOperacoes.instance().totalCreditos(10, 2018));
+		assertEquals(3, LogicaOperacoes.instance().totalCreditos(5, 2018));
 	}
 	
 	@Test 
 	void testTotalDebitos()
 	{
-		int num = Operacoes.getInstance().totalDebitos(130, 10, 2018);
-		assertEquals(num, LogicaOperacoes.instance().totalDebitos(10, 2018));
+		assertEquals(2, LogicaOperacoes.instance().totalDebitos(8, 2018));
 	}
 	
 	@Test 
 	void testSaldoMedio()
 	{
-		double num = Operacoes.getInstance().getSaldoMedioMes(130, 10, 2018);
-		assertEquals(num, LogicaOperacoes.instance().solicitaSaldoMedio(10, 2018));
+		assertEquals(650000.0/30.0, LogicaOperacoes.instance().solicitaSaldoMedio(5, 2018));
 	}
 }

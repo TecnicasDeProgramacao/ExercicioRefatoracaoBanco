@@ -74,6 +74,13 @@ public class TelaEstatisticas
 		
 		dp.setValue(localDate);
 		
+		credits.setText("Créditos: "+LogicaOperacoes.instance().totalCreditos(date.get(GregorianCalendar.MONTH)+1,
+																 	date.get(GregorianCalendar.YEAR)));
+		debits.setText("Débitos: "+LogicaOperacoes.instance().totalDebitos(date.get(GregorianCalendar.MONTH)+1,
+				 												  date.get(GregorianCalendar.YEAR)));
+		saldoMedioMes.setText("Saldo Médio do Mês: "+LogicaOperacoes.instance().solicitaSaldoMedio(date.get(GregorianCalendar.MONTH)+1,
+				   														 	   date.get(GregorianCalendar.YEAR)));		
+		
 		Button btnVoltar = new Button("Voltar");
 		HBox hbBtn = new HBox(20);
 		hbBtn.setAlignment(Pos.TOP_CENTER);
